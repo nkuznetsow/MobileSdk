@@ -90,14 +90,32 @@ JivoSite Mobile SDK позволяет встроить чат для подде
 Перечень событий описан в разделе “События”.
 
 ### События
-Виджет отправляет следующие события в метод onEvent
+Виджет отправляет следующие события в метод onEvent. Параметры событий приходят строками в формате JSON
 
-- установлено соединение (‘connection.connect’)
-- соединение откючено (‘connection.disconnect’)
-- ошибки при подключении (‘connection.error’)
-- получено сообщение (‘agent.message’)
-- чат сервер разорвал соединение, некому ответить (‘connection.force_offline)
-- установлено подключение с сервером (‘connection.startup_ok’)
-- оператор принял чат (‘connection.accep’t)
-- оператор передал чат (‘connection.transferred’)
-- изменился оператор (‘agent.set’)
+- чат сервер разорвал соединение, некому ответить ('chat.force_offline')
+- чат инициализирован ('chat.ready')
+- оператор принял чат ('chat.accept')
+- оператор передал чат ('chat.transferred')
+- состояние чата ('chat.mode', chat_mode : JSONSTRING)
+- соединение с сервером ('connection.connecting')
+- соединение разорвано ('connection.disconnect')
+- соединение установлено ('connection.connect')
+- ошибка подключения ('connection.error', error : JSONSTRING)
+- сообщение от оператора ('agent.message', message : JSONSTRING)
+- оператор закрыл чат ('agent.chat_close')
+- получена информация об операторе ('agent.info', agentInfo : JSONSTRING)
+- получена информация о клиенте ('contact_info', contact_info : JSONSTRING)
+- клик по ссылке ('url.click', href : JSONSTRING)
+- получено имя оператора ('agent.name', agent_name : JSONSTRING)
+
+### Функции Api
+Для вызова функций Api используется метод jivoSdk callApiMethod(methodName: String, data: String)
+
+- method setContactInfo (clientInfo : JSONSTRING) установить данные контакта
+- method setCustomData (customData : JSONSTRING) установить специальные данные
+- method setUserToken (userToken : JSONSTRING) установить токен пользователя
+- method getContactInfo () получить данные о контакте, будут отправлены с событием 'contact.info'
+- method getAgentInfo () получить данные оператора, будут отправлены с событием 'contact.info'
+- method getAgentName () получить имя оператора, данные будут отправлены с событием 'agent.name'
+- method chatMode () получить состояние чата, данные будут отправлены с событием 'chat.mode'
+- method sendMessage (message : JSONSTRING) отправить сообщение
